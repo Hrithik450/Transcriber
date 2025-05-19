@@ -1,4 +1,3 @@
-// components/ReadingPractice.tsx
 "use client";
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
@@ -10,9 +9,8 @@ const ReadingPractice: React.FC = () => {
   const recognitionRef = useRef<any>(null);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const expectedWordsRef = useRef<string[]>([]);
-  const processingLockRef = useRef(false); // To prevent overlapping processing
+  const processingLockRef = useRef(false);
 
-  // Initialize SpeechRecognition and expected words
   useEffect(() => {
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
@@ -47,7 +45,6 @@ const ReadingPractice: React.FC = () => {
       alert("Speech Recognition not supported in this browser.");
     }
 
-    // Initialize expected words
     expectedWordsRef.current = sentence
       .toLowerCase()
       .replace(/[^\w\s]/g, "")
@@ -77,7 +74,6 @@ const ReadingPractice: React.FC = () => {
       let localCurrentIndex = currentWordIndex;
       let shouldSpeakCorrection = false;
 
-      // Check each spoken word against expected sequence
       for (let i = 0; i < spokenWords.length; i++) {
         if (localCurrentIndex >= expectedWordsRef.current.length) break;
 
@@ -90,13 +86,11 @@ const ReadingPractice: React.FC = () => {
         }
       }
 
-      // Update the current word index
       setCurrentWordIndex(localCurrentIndex);
 
       if (shouldSpeakCorrection) {
         await new Promise<void>((resolve) => {
           speak(expectedWordsRef.current[localCurrentIndex]);
-          // Assuming speak is synchronous - if not, you might need to hook into its completion
           resolve();
         });
       } else if (localCurrentIndex >= expectedWordsRef.current.length) {

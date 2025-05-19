@@ -122,8 +122,9 @@ const ReadingPractice: React.FC = () => {
       <p className="text-lg mb-4 text-center max-w-lg">
         {sentence.split(" ").map((word, index) => (
           <span
+            onClick={() => speak(word)}
             key={`word-${index}`}
-            className={`mx-1 ${
+            className={`mx-1 cursor-pointer ${
               index === currentWordIndex ? "bg-yellow-200 px-1" : ""
             }`}
           >
